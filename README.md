@@ -66,6 +66,13 @@ The client would run at http://localhost:3000/.
 You can access the application at the client URL.
 
 
+### Testing
+Execute the following command to run the unit tests of this application:
+```shell script
+export DATABASE_URL=<TEST_DATABASE_URL>
+python3 -m test.test_flaskr
+```
+
 ### Production
 * Create a client build
 ```shell script
@@ -74,7 +81,7 @@ cd client && yarn build
 * Start the production `gunicorn` server
 ```shell script
 export DATABASE_URL=<DATABASE_URL>
-gunicorn app:app
+gunicorn wsgi:app
 ```
 The application would run at http://localhost:8000/.
 

@@ -58,7 +58,7 @@ module.exports = ({ mode, server } = { mode: MODE.DEV, server: "local" }) => ({
     ],
   },
   output: {
-    path: path.join(__dirname, "../static/"),
+    path: path.join(__dirname, "./build"),
     filename: "js/[name].[hash].js",
     publicPath: "/",
   },

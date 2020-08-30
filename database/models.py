@@ -2,6 +2,9 @@ from flask import abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, Text, Boolean
 from sqlalchemy.exc import IntegrityError
+from werkzeug.exceptions import BadRequest
+
+from database import config
 
 db = SQLAlchemy()
 
@@ -13,7 +16,7 @@ def setup_db(app):
     :param app: Flask app instance
     :return:
     """
-    app.config.from_object('config')
+    app.config.from_object(config)
     db.app = app
     db.init_app(app)
 
@@ -37,25 +40,32 @@ class TodoItem(db.Model):
     description = Column(Text, nullable=False)
     done = Column(Boolean, nullable=False)
 
+    @staticmethod
+    def get(todo_id):
+        todo = TodoItem.query.get(todo_id)
+        if not todo:
+            raise BadRequest(f"Item with id:{todo_id} not found.")
+        return todo
+
     def insert(self):
         try:
             db.session.add(self)
             db.session.commit()
         except IntegrityError as exception:
-            return abort(jsonify(code="BAD_REQUEST", message="Unable to add todo item."), 400)
+            raise BadRequest("Unable to add todo item.")
 
     def update(self):
         try:
             db.session.commit()
         except IntegrityError as exception:
-            return abort(jsonify(code="BAD_REQUEST", message="Unable to update todo item."), 400)
+            raise BadRequest("Unable to update todo item.")
 
     def delete(self):
         try:
             db.session.delete(self)
             db.session.commit()
         except IntegrityError as exception:
-            return abort(jsonify(code="BAD_REQUEST", message="Unable to delete todo item."), 400)
+            raise BadRequest("Unable to delete todo item.")
 
     def dictionary(self):
         return {
