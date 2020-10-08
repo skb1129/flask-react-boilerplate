@@ -49,9 +49,17 @@ module.exports = ({ mode, server } = { mode: MODE.DEV, server: "local" }) => ({
       {
         test: /\.(scss|css)?$/,
         use: [
-          "style-loader",
-          { loader: MiniCssExtractPlugin.loader, options: { hmr: mode === MODE.DEV } },
-          "css-loader",
+          mode === MODE.DEV ? "style-loader" : MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+            options: {
+              importLoaders: 1,
+              modules: {
+                localIdentName: "[name]__[local]__[hash:base64:5]",
+                exportLocalsConvention: "camelCaseOnly",
+              },
+            },
+          },
           "sass-loader",
         ],
       },

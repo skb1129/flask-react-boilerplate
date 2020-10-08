@@ -1,18 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 
-import api from "./api";
+import { api } from "./api";
 import { TodoItem } from "./models";
 
-import "./App.scss";
+import classes from "./App.scss";
 
-function App() {
-  const styles = {
-    wrapper: "app__wrapper",
-    container: "app__container",
-    logo: "app__logo",
-    title: "app__title",
-    listItem: "app__list-item",
-  };
+function App(): JSX.Element {
   const [todoList, setTodoList] = useState<TodoItem[]>([]);
   const [value, setValue] = useState("");
 
@@ -62,7 +55,7 @@ function App() {
       const id = Number(target.dataset.id);
       setTodoList((list) => {
         const item = list.find((item) => item.id === id);
-        item.done = target.checked;
+        if (item) item.done = target.checked;
         return [...list];
       });
       markTodo({ id, done: target.checked });
@@ -71,12 +64,12 @@ function App() {
   );
 
   return (
-    <div data-testid="app" className={styles.wrapper}>
-      <div className={styles.container}>
-        <img className={styles.logo} src="/react.png" alt="React logo" />
-        <h1 className={styles.title}>To-Do List</h1>
+    <div data-testid="app" className={classes.wrapper}>
+      <div className={classes.container}>
+        <img className={classes.logo} src="/react.png" alt="React logo" />
+        <h1 className={classes.title}>To-Do List</h1>
         {todoList.map((item) => (
-          <div key={item.id} className={styles.listItem}>
+          <div key={item.id} className={classes.listItem}>
             <input type="checkbox" checked={item.done} onChange={onCheck} data-id={item.id} />
             <span>{item.description}</span>
           </div>

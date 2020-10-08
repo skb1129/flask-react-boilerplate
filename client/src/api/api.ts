@@ -4,4 +4,4 @@ const api = Axios.create({
   baseURL: "/api",
 });
 
-export default api;
+export { api };

@@ -1,4 +1,3 @@
-from flask import abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, Text, Boolean
 from sqlalchemy.exc import IntegrityError
