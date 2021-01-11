@@ -33,7 +33,7 @@ To get a local copy up and running follow these simple steps.
 You need the following prerequisite dependencies to run the project.
 * node
 * yarn
-* python3
+* python3.8
 * pipenv
 
 
